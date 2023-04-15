@@ -7,6 +7,7 @@ const messages = Messages.load('sf-scratch-org-plugin', 'scratch-org.list', [
   'description',
   'examples',
   'flags.name.summary',
+  'flags.target-dev-hub.summary',
 ]);
 
 export type ScratchOrgListResult = {
@@ -23,6 +24,10 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
       summary: messages.getMessage('flags.name.summary'),
       char: 'n',
       required: false,
+    }),
+    'target-dev-hub': Flags.requiredHub({
+      summary: messages.getMessage('flags.target-dev-hub.summary'),
+      required: true,
     }),
   };
 
