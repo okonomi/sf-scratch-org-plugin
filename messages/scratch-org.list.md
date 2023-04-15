@@ -6,10 +6,6 @@ Summary of a command.
 
 Description of a command.
 
-# flags.name.summary
-
-Description of a flag.
-
 # examples
 
 - <%= config.bin %> <%= command.id %>

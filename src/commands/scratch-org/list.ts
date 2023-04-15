@@ -6,7 +6,6 @@ const messages = Messages.load('sf-scratch-org-plugin', 'scratch-org.list', [
   'summary',
   'description',
   'examples',
-  'flags.name.summary',
   'flags.target-dev-hub.summary',
 ]);
 
@@ -20,11 +19,6 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
   public static readonly examples = messages.getMessages('examples');
 
   public static readonly flags = {
-    name: Flags.string({
-      summary: messages.getMessage('flags.name.summary'),
-      char: 'n',
-      required: false,
-    }),
     'target-dev-hub': Flags.requiredHub({
       summary: messages.getMessage('flags.target-dev-hub.summary'),
       required: true,
@@ -34,10 +28,7 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
   public async run(): Promise<ScratchOrgListResult> {
     const { flags } = await this.parse(ScratchOrgList);
 
-    const name = flags.name ?? 'world';
-    this.log(
-      `hello ${name} from /Users/okonomi/src/github.com/okonomi/sf-scratch-org-plugin/src/commands/scratch-org/list.ts`
-    );
+    this.log(`target-dev-hub: ${flags['target-dev-hub'].getOrgId()}`);
     return {
       path: '/Users/okonomi/src/github.com/okonomi/sf-scratch-org-plugin/src/commands/scratch-org/list.ts',
     };
