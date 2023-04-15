@@ -3,12 +3,7 @@ import { Messages } from '@salesforce/core';
 import { type QueryResult } from 'jsforce';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.load('sf-scratch-org-plugin', 'scratch-org.list', [
-  'summary',
-  'description',
-  'examples',
-  'flags.target-dev-hub.summary',
-]);
+const messages = Messages.load('sf-scratch-org-plugin', 'scratch-org.list', ['summary', 'description', 'examples']);
 
 type ScrachOrgInfo = {
   Id: string;
@@ -27,10 +22,7 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
   public static readonly examples = messages.getMessages('examples');
 
   public static readonly flags = {
-    'target-dev-hub': Flags.requiredHub({
-      summary: messages.getMessage('flags.target-dev-hub.summary'),
-      required: true,
-    }),
+    'target-dev-hub': Flags.requiredHub(),
   };
 
   public async run(): Promise<ScratchOrgListResult> {
