@@ -37,22 +37,40 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
     const { flags } = await this.parse(ScratchOrgList);
 
     const orgDevHub = flags['target-dev-hub'];
-    this.log(`Connecting to ${orgDevHub.getOrgId()}...`);
-
     const connection = orgDevHub.getConnection();
     const result = await connection.query<ScrachOrgInfo>(
       'SELECT Id, ScratchOrg, ExpirationDate, SignupUsername, Edition, OrgName FROM ScratchOrgInfo'
     );
-    // Log the results
+
     if (result.records.length > 0) {
-      this.log('List of Scratch Orgs:');
-      for (const record of result.records) {
-        this.log(`  • ${record.OrgName}: ${record.ScratchOrg}`);
-      }
+      this.printScratchOrgTable(result.records);
     } else {
       this.log('No Scratch Orgs found.');
     }
 
     return result;
+  }
+
+  private printScratchOrgTable(scratchOrgs: ScrachOrgInfo[]): void {
+    this.table(scratchOrgs, {
+      Id: {
+        header: 'Id',
+      },
+      ScratchOrg: {
+        header: 'ScratchOrg',
+      },
+      ExpirationDate: {
+        header: 'ExpirationDate',
+      },
+      SignupUsername: {
+        header: 'SignupUsername',
+      },
+      Edition: {
+        header: 'Edition',
+      },
+      OrgName: {
+        header: 'OrgName',
+      },
+    });
   }
 }
