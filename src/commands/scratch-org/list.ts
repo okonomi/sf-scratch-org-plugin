@@ -28,7 +28,21 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
   public async run(): Promise<ScratchOrgListResult> {
     const { flags } = await this.parse(ScratchOrgList);
 
-    this.log(`target-dev-hub: ${flags['target-dev-hub'].getOrgId()}`);
+    const orgDevHub = flags['target-dev-hub'];
+    this.log(`Connecting to ${orgDevHub.getOrgId()}...`);
+
+    const connection = orgDevHub.getConnection();
+    const result = await connection.query<{ Name: string; Id: string }>('SELECT Id, Name FROM Account');
+    // Log the results
+    if (result.records.length > 0) {
+      this.log('Found the following Accounts:');
+      for (const record of result.records) {
+        this.log(`  • ${record.Name}: ${record.Id}`);
+      }
+    } else {
+      this.log('No Accounts found.');
+    }
+
     return {
       path: '/Users/okonomi/src/github.com/okonomi/sf-scratch-org-plugin/src/commands/scratch-org/list.ts',
     };
