@@ -12,6 +12,7 @@ type ScrachOrgInfo = {
   SignupUsername: string;
   Edition: string;
   OrgName: string;
+  Status: string;
 };
 
 export type ScratchOrgListResult = QueryResult<ScrachOrgInfo>;
@@ -31,7 +32,7 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
     const orgDevHub = flags['target-dev-hub'];
     const connection = orgDevHub.getConnection();
     const result = await connection.query<ScrachOrgInfo>(
-      'SELECT Id, ScratchOrg, ExpirationDate, SignupUsername, Edition, OrgName FROM ScratchOrgInfo'
+      'SELECT Id, ScratchOrg, ExpirationDate, SignupUsername, Edition, OrgName, Status FROM ScratchOrgInfo'
     );
 
     if (result.records.length > 0) {
@@ -62,6 +63,9 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
       },
       OrgName: {
         header: 'OrgName',
+      },
+      Status: {
+        header: 'Status',
       },
     });
   }
