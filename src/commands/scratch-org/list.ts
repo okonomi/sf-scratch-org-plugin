@@ -1,5 +1,6 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
+import { type QueryResult } from 'jsforce';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.load('sf-scratch-org-plugin', 'scratch-org.list', [
@@ -9,9 +10,16 @@ const messages = Messages.load('sf-scratch-org-plugin', 'scratch-org.list', [
   'flags.target-dev-hub.summary',
 ]);
 
-export type ScratchOrgListResult = {
-  path: string;
+type ScrachOrgInfo = {
+  Id: string;
+  ScratchOrg: string;
+  ExpirationDate: Date;
+  SignupUsername: string;
+  Edition: string;
+  OrgName: string;
 };
+
+export type ScratchOrgListResult = QueryResult<ScrachOrgInfo>;
 
 export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
   public static readonly summary = messages.getMessage('summary');
@@ -32,19 +40,19 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
     this.log(`Connecting to ${orgDevHub.getOrgId()}...`);
 
     const connection = orgDevHub.getConnection();
-    const result = await connection.query<{ Name: string; Id: string }>('SELECT Id, Name FROM Account');
+    const result = await connection.query<ScrachOrgInfo>(
+      'SELECT Id, ScratchOrg, ExpirationDate, SignupUsername, Edition, OrgName FROM ScratchOrgInfo'
+    );
     // Log the results
     if (result.records.length > 0) {
-      this.log('Found the following Accounts:');
+      this.log('List of Scratch Orgs:');
       for (const record of result.records) {
-        this.log(`  • ${record.Name}: ${record.Id}`);
+        this.log(`  • ${record.OrgName}: ${record.ScratchOrg}`);
       }
     } else {
-      this.log('No Accounts found.');
+      this.log('No Scratch Orgs found.');
     }
 
-    return {
-      path: '/Users/okonomi/src/github.com/okonomi/sf-scratch-org-plugin/src/commands/scratch-org/list.ts',
-    };
+    return result;
   }
 }
