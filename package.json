@@ -96,5 +96,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "okonomi"
+  "author": "okonomi",
+  "packageManager": "yarn@3.5.0"
 }
