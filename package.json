@@ -67,9 +67,6 @@
       "@oclif/plugin-help"
     ],
     "topics": {
-      "hello": {
-        "description": "Commands to say hello."
-      },
       "scratch-org": {
         "description": "description for scratch-org"
       }
