@@ -30,6 +30,9 @@ export default class ScratchOrgList extends SfCommand<ScratchOrgListResult> {
     const { flags } = await this.parse(ScratchOrgList);
 
     const orgDevHub = flags['target-dev-hub'];
+    if (!orgDevHub) {
+      throw new Error('No Dev Hub org found.');
+    }
     const connection = orgDevHub.getConnection('57.0');
     const result = await connection.query<ScrachOrgInfo>(
       'SELECT Id, ScratchOrg, ExpirationDate, SignupUsername, Edition, OrgName, Status FROM ScratchOrgInfo'
