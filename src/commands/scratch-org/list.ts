@@ -3,7 +3,7 @@ import { Messages } from '@salesforce/core';
 import { type QueryResult } from 'jsforce';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.load('sf-scratch-org-plugin', 'scratch-org.list', ['summary', 'description', 'examples']);
+const messages = Messages.loadMessages('sf-scratch-org-plugin', 'scratch-org.list');
 
 type ScrachOrgInfo = {
   Id: string;
